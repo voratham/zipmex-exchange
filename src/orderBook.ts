@@ -14,7 +14,7 @@ export class OrderBook implements IOrderBook {
       return this.compareSell
     }
 
-    throw Error('Not matching with command anything')
+    throw new Error('Not matching with command anything')
   }
 
   public trigger = (order: IOrder): void => {
@@ -37,7 +37,6 @@ export class OrderBook implements IOrderBook {
     const foundOrderCriteriaIndex = this.store?.[Command.SELL].findIndex(book => book.price >= order.price)
     if (foundOrderCriteriaIndex < 0) {
       const foundOrderCriteriaIndex = this.store?.[Command.SELL].findIndex(book => book.price === order.price)
-
       if (foundOrderCriteriaIndex < 0) {
         this.store[Command.SELL].push({
           price: order.price,
@@ -46,7 +45,6 @@ export class OrderBook implements IOrderBook {
       } else {
         this.store[Command.SELL][foundOrderCriteriaIndex].volume += order.amount
       }
-
       this.sortByCommand(Command.BUY)
       return
     }
@@ -67,7 +65,6 @@ export class OrderBook implements IOrderBook {
 
     if (foundOrderCriteriaIndex < 0) {
       const orderIndexExists = this.store[Command.BUY].findIndex(book => book.price === order.price)
-
       if (orderIndexExists < 0) {
         this.store[Command.BUY].push({
           price: order.price,
